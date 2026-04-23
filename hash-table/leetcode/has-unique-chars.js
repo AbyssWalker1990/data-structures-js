@@ -1,20 +1,3 @@
-//   +=====================================================+
-//   |                WRITE YOUR CODE HERE                 |
-//   | Description:                                        |
-//   | - This function checks if all the characters in a   |
-//   |   given string are unique.                          |
-//   |                                                     |
-//   | Return type: Boolean                                |
-//   | - Returns true if all characters are unique.        |
-//   | - Returns false otherwise.                          |
-//   |                                                     |
-//   | Tips:                                               |
-//   | - You can use a Set to keep track of seen           |
-//   |   characters.                                       |
-//   | - If a character is already in the Set, you can     |
-//   |   return false immediately.                         |
-//   +=====================================================+
-
 function hasUniqueChars(arr) {
   return arr.length === [...new Set(arr)].length;
 }
