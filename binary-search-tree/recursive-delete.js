@@ -79,7 +79,7 @@ class BinarySearchTree {
 
     if (value < currentNode.value) {
       currentNode.left = this.#recursiveInsert(value, currentNode.left);
-    } else {
+    } else if (value > currentNode.value) {
       currentNode.right = this.#recursiveInsert(value, currentNode.right);
     }
 
@@ -89,7 +89,15 @@ class BinarySearchTree {
   recursiveInsert(value) {
     if (this.root === null) this.root = new Node(value);
 
-    return this.#recursiveInsert(value);
+    this.#recursiveInsert(value);
+  }
+
+  minValue(currentNode) {
+    while (currentNode.left !== null) {
+      currentNode = currentNode.left;
+    }
+
+    return currentNode.value;
   }
 
   #recursiveDelete(value, currentNode) {
@@ -100,14 +108,28 @@ class BinarySearchTree {
     } else if (value > currentNode.value) {
       currentNode.right = this.#recursiveDelete(value, currentNode.right);
     } else {
-      console.log("Implement for 4 different situations");
+      if (currentNode.left === null && currentNode.right === null) {
+        return null;
+      } else if (currentNode.left === null) {
+        return currentNode.right;
+      } else if (currentNode.right === null) {
+        return currentNode.left;
+      } else {
+        const subTreeMin = this.minValue(currentNode.right);
+        currentNode.value = subTreeMin;
+
+        currentNode.right = this.#recursiveDelete(
+          subTreeMin,
+          currentNode.right,
+        );
+      }
     }
 
     return currentNode;
   }
 
   recursiveDelete(value) {
-    this.root = this.recursiveDelete(value, this.root);
+    this.root = this.#recursiveDelete(value, this.root);
   }
 }
 
@@ -117,4 +139,10 @@ myTree.recursiveInsert(2);
 myTree.recursiveInsert(1);
 myTree.recursiveInsert(3);
 
+console.log(myTree);
+console.log(myTree.minValue(myTree.root));
+
+myTree.recursiveDelete(2);
+
+console.log("After deletion: ");
 console.log(myTree);
